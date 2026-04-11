@@ -66,9 +66,11 @@ router.post("/invite/:id", auth, async (req, res) => {
       { new: true }
     );
 
+    const link = `${window.location.origin}/${token}`;
+
     // ✅ IMPORTANT RETURN
     res.json({
-      inviteLink: `http://localhost:5173/join/${token}`,
+      inviteLink: link,
     });
 
   } catch (err) {

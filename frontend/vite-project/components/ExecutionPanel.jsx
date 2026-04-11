@@ -1,86 +1,92 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import API from "../api/api";
 
-export default function ExecutionPanel({ projectId }) {
+export default function ExecutionPanel({ projectId, type }) {
   const [result, setResult] = useState(null);
+  const [loading, setLoading] = useState(false);
 
-  const runExecution = async () => {
-    const res = await API.post(`/execution/${projectId}/compute-execution`);
-    setResult(res.data);
-  };
+  useEffect(() => {
+    const fetchData = async () => {
+      setLoading(true);
 
-  const simulate = async () => {
-    const res = await API.post(`/execution/${projectId}/simulate`, {
-      availableHours: 8,
-    });
-    setResult(res.data);
-  };
+      try {
+        let res;
 
-  // 🔥 reusable card
-  const renderTasks = (tasks = []) => {
-    if (!tasks.length) return <p>No tasks</p>;
+        if (type === "execution") {
+          res = await API.post(`/execution/${projectId}/compute-execution`);
+        } else {
+          res = await API.post(`/execution/${projectId}/simulate`, {
+            availableHours: 8
+          });
+        }
 
-    return tasks.map((t) => (
-      <div className="task-card" key={t._id}>
-        <h4>{t.title}</h4>
-        <p>Status: {t.status}</p>
-        <p>Priority: {t.priority}</p>
-        <p>Hours: {t.estimatedHours}</p>
-      </div>
-    ));
-  };
+        setResult(res.data);
+      } catch (err) {
+        console.error(err);
+      }
+
+      setLoading(false);
+    };
+
+    fetchData();
+  }, [projectId, type]); // 🔥 runs when tab changes
 
   return (
-    <div>
-      <div className="btn-row">
-        <button onClick={runExecution}>Run Execution</button>
-        <button onClick={simulate}>Simulate</button>
-      </div>
+    <div className="execution-container">
+
+      {loading && <p>Loading...</p>}
 
       {result && (
-        <div className="execution-container">
-
-          {/* 🔥 EXECUTION ORDER */}
+        <>
+          {/* Execution Order */}
           {result.executionOrder && (
-            <div className="card">
+            <div>
               <h3>Execution Order</h3>
-              {renderTasks(result.executionOrder)}
+              {result.executionOrder.map(t => (
+                <div className="task-card" key={t._id}>
+                  <h4>{t.title}</h4>
+                  <p>Status: {t.status}</p>
+                </div>
+              ))}
             </div>
           )}
 
-          {/* 🔥 SELECTED TASKS (Simulation) */}
+          {/* Selected Tasks */}
           {result.selectedTasks && (
-            <div className="card">
+            <div>
               <h3>Selected Tasks</h3>
-              {renderTasks(result.selectedTasks)}
+              {result.selectedTasks.map(t => (
+                <div className="task-card" key={t._id}>
+                  <h4>{t.title}</h4>
+                </div>
+              ))}
             </div>
           )}
 
-          {/* 🔥 BLOCKED TASKS */}
+          {/* Blocked Tasks */}
           {result.blockedTasks && (
-            <div className="card">
+            <div>
               <h3>Blocked Tasks</h3>
-              {renderTasks(result.blockedTasks)}
+              {result.blockedTasks.map(t => (
+                <div className="task-card" key={t._id}>
+                  <h4>{t.title}</h4>
+                </div>
+              ))}
             </div>
           )}
 
-          {/* 🔥 SKIPPED TASKS */}
+          {/* Skipped Tasks */}
           {result.skippedTasks && (
-            <div className="card">
+            <div>
               <h3>Skipped Tasks</h3>
-              {renderTasks(result.skippedTasks)}
+              {result.skippedTasks.map(t => (
+                <div className="task-card" key={t._id}>
+                  <h4>{t.title}</h4>
+                </div>
+              ))}
             </div>
           )}
-
-          {/* 🔥 SCORE */}
-          {result.totalPriorityScore !== undefined && (
-            <div className="card">
-              <h3>Total Priority Score</h3>
-              <p>{result.totalPriorityScore}</p>
-            </div>
-          )}
-
-        </div>
+        </>
       )}
     </div>
   );

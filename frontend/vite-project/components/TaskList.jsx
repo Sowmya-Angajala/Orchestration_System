@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import API from "../api/api";
 import { io } from "socket.io-client";
 
-const socket = io("http://localhost:5000");
+const socket = io("https://orchestration-system.onrender.com");
 
 export default function TaskList({ tasks, setTasks }) {
   const [editingId, setEditingId] = useState(null);
@@ -107,7 +107,6 @@ const updateTask = async () => {
 
   return (
     <div>
-      <h3>Tasks</h3>
 
       {tasks.map((t) => (
         <div className="task-card" key={t._id}>
