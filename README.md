@@ -6,10 +6,8 @@ A full-stack MERN application that enables multiple users to collaboratively man
 
 ## 🔗 Live Links
 
-* 🌐 Frontend: https://your-frontend-url.onrender.com
-* ⚙️ Backend: https://your-backend-url.onrender.com
-* 📦 GitHub Repo: https://github.com/your-username/your-repo
-
+* 🌐 Frontend: FRONTEND_URL=http://localhost:5173
+* ⚙️ Backend: https://orchestration-system.onrender.com
 ---
 
 ## 🧠 Overview
@@ -21,7 +19,6 @@ This system acts as a **lightweight workflow orchestration engine** where:
 * Execution plans are computed based on constraints
 * Multiple users collaborate in real-time
 * Conflicts are handled safely using versioning
-
 ---
 
 ## ⚙️ Tech Stack
@@ -57,7 +54,6 @@ Create `.env` file:
 PORT=5000
 MONGO_URI=your_mongodb_uri
 JWT_SECRET=your_secret
-FRONTEND_URL=http://localhost:5173
 ```
 
 Run server:
