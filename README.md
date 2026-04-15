@@ -6,8 +6,8 @@ A full-stack MERN application that enables multiple users to collaboratively man
 
 ## 🔗 Live Links
 
-* 🌐 Frontend: FRONTEND_URL=http://localhost:5173
-* ⚙️ Backend: https://orchestration-system.onrender.com
+* 🌐 Frontend:https://orchestration-system.vercel.app
+* ⚙️ Backend: https://orchestration-system-1.onrender.com
 ---
 
 ## 🧠 Overview
