@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { io } from "socket.io-client";
 
-const socket = io("https://orchestration-system.onrender.com");
+const socket = io(import.meta.env.VITE_API_URL);
 
 export default function Tasks() {
   const [tasks, setTasks] = useState([]);

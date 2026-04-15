@@ -53,7 +53,8 @@ router.get("/:id/members", auth, async (req, res) => {
 
 
 // Generate invite
-router.post("/invite/:id", auth, async (req, res) => {
+router.post("/invite/:id",auth, async (req, res) => {
+  console.log("Generating invite...")
   try {
     const token = uuidv4();
 
@@ -66,7 +67,9 @@ router.post("/invite/:id", auth, async (req, res) => {
       { new: true }
     );
 
-    const link = `${window.location.origin}/${token}`;
+    // const link = `${window.location.origin}/${token}`;
+    const link = `${process.env.FRONTEND_URL}/join/${token}`;
+
 
     // ✅ IMPORTANT RETURN
     res.json({
@@ -75,6 +78,7 @@ router.post("/invite/:id", auth, async (req, res) => {
 
   } catch (err) {
     res.status(500).json({ msg: "Error generating invite" });
+    
   }
 });
 

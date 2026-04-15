@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import API from "../api/api";
 import { io } from "socket.io-client";
 
-const socket = io("https://orchestration-system.onrender.com");
+const socket = io(import.meta.env.VITE_API_URL);
 
 export default function TaskList({ tasks, setTasks }) {
   const [editingId, setEditingId] = useState(null);
